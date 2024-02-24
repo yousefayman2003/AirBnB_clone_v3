@@ -25,23 +25,18 @@ class FileStorage:
     __objects = {}
 
     def get(self, cls, id):
-        """Retrieve an object"""
-        if cls is not None and type(cls) is str and id is not None and\
-           type(id) is str and cls in classes:
-            key = cls + '.' + id
-            obj = self.__objects.get(key, None)
-            return (obj)
-        else:
-            return(None)
+        '''
+        Returns the object based on the class and its ID,or None if not found.
+        '''
+        obj = cls.__name__ + '.' + id
+        return self.__objects[obj]
 
     def count(self, cls=None):
-        """Count number of objects in storage"""
-        total = 0
-        if type(cls) == str and cls in classes:
-            total = len(self.all(cls))
-        elif cls is None:
-            total = len(self.__objects)
-        return total
+        '''
+        Returns the number of objects in storage matching the given class.
+        If no class is passed, returns the count of all objects in storage.
+        '''
+        return len(self.all(cls))
 
     def all(self, cls=None):
         """returns the dictionary __objects"""
