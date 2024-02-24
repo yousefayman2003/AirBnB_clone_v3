@@ -28,7 +28,7 @@ class FileStorage:
         '''
         Returns the object based on the class and its ID,or None if not found.
         '''
-        obj = cls.__name__ + id
+        obj = cls.__name__ + '.' + id
         return self.__objects[obj]
 
     def count(self, cls=None):
