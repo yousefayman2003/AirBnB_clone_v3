@@ -74,9 +74,16 @@ def updt_city(city_id):
         abort(404)
     if not request.get_json():
         abort(400, 'Not a JSON')
-    city[0]['name'] = request.json['name']
+    try:
+        city[0]['name'] = request.json['name']
+    except Exception:
+        pass
     for obj in cities:
         if obj.id == city_id:
-            obj.name = request.json['name']
+            try:
+                if request.json['name'] is not None:
+                    obj.name = request.json['name']
+            except Exception:
+                pass
     storage.save()
     return jsonify(city[0]), 200
