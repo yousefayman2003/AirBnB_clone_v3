@@ -4,11 +4,11 @@ from api.v1.views import app_views
 from flask import jsonify, abort
 from models.place import Place
 from models import storage
-from models import storage_t as stor
+from models import storage_t
 from models.amenity import Amenity
 
 
-@app_views.route("/places/<place_id>/amenities", strict_slashes=False)
+@app_views.route("/places/<place_id>/amenities")
 def amenities_place(place_id):
     """get all amenities in a specific place"""
     place = storage.get(Place, place_id)
@@ -16,7 +16,7 @@ def amenities_place(place_id):
         abort(404)
     amenities = []
 
-    if stor == "db":
+    if storage_t == "db":
         for amenity in place.amenities:
             amenities.append(amenity.to_dict())
     else:
@@ -26,7 +26,6 @@ def amenities_place(place_id):
 
 
 @app_views.route("/places/<place_id>/amenities/<amenity_id>",
-                 strict_slashes=False,
                  methods=["DELETE"])
 def del_amenity_place(place_id, amenity_id):
     """delete amenity in place"""
@@ -39,7 +38,7 @@ def del_amenity_place(place_id, amenity_id):
     if amenity not in place.amenities:
         abort(404)
 
-    if stor == "db":
+    if storage_t == "db":
         place.amenities.remove(amenity)
     else:
         place.amenity_ids.remove(amenity)
@@ -49,7 +48,6 @@ def del_amenity_place(place_id, amenity_id):
 
 
 @app_views.route("/places/<place_id>/amenities/<amenity_id>",
-                 strict_slashes=False,
                  methods=["POST"])
 def add_amentiy_place(place_id, amenity_id):
     """add amentiy to place."""
@@ -62,7 +60,7 @@ def add_amentiy_place(place_id, amenity_id):
     if amenity in place.amenities:
         return jsonify(amenity.to_dict())
 
-    if stor == "db":
+    if storage_t == "db":
         place.amenities.append(amenity)
     else:
         place.amenity_ids.append(amenity.id)
