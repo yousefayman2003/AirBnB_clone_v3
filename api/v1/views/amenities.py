@@ -6,14 +6,15 @@ from models import storage
 from models.amenity import Amenity
 
 
-@app_views.route('/amenities/', methods=['GET'])
+@app_views.route('/amenities/', strict_slashes=False, methods=['GET'])
 def amenities():
     '''gets all amenities'''
     amenities = [obj.to_dict() for obj in storage.all("Amenity").values()]
     return jsonify(amenities)
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['GET'])
+@app_views.route('/amenities/<amenity_id>', strict_slashes=False,
+                 methods=['GET'])
 def amenity(amenity_id):
     '''get an amenitity'''
     amenities = storage.all("Amenity").values()
@@ -24,7 +25,8 @@ def amenity(amenity_id):
     return jsonify(amenity[0])
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['DELETE'])
+@app_views.route('/amenities/<amenity_id>', strict_slashes=False,
+                 methods=['DELETE'])
 def del_amenity(amenity_id):
     '''delete an amenitiy'''
     amenities = storage.all("Amenity").values()
@@ -40,7 +42,7 @@ def del_amenity(amenity_id):
     return jsonify({}), 200
 
 
-@app_views.route('/amenities/', methods=['POST'])
+@app_views.route('/amenities/', strict_slashes=False, methods=['POST'])
 def crt_amenity():
     '''create an amenity'''
     if not request.get_json():
@@ -55,7 +57,8 @@ def crt_amenity():
     return jsonify(amenities[0]), 201
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['PUT'])
+@app_views.route('/amenities/<amenity_id>', strict_slashes=False,
+                 methods=['PUT'])
 def updt_amenity(amenity_id):
     '''update an amenity'''
     amenities = storage.all("Amenity").values()

@@ -7,8 +7,9 @@ from models.city import City
 from models.state import State
 
 
-@app_views.route('/states/<state_id>/cities', methods=['GET'])
-def list_cities_of_state(state_id):
+@app_views.route('/states/<state_id>/cities', strict_slashes=False,
+                 methods=['GET'])
+def cities_state(state_id):
     """return a list of all City objects"""
     states = storage.all("State").values()
     state = [obj.to_dict() for obj in states if obj.id == state_id]
@@ -19,8 +20,9 @@ def list_cities_of_state(state_id):
     return jsonify(cities)
 
 
-@app_views.route('/states/<state_id>/cities', methods=['POST'])
-def create_city(state_id):
+@app_views.route('/states/<state_id>/cities', strict_slashes=False,
+                 methods=['POST'])
+def crt_city(state_id):
     """create a city"""
     if not request.get_json():
         abort(400, 'Not a JSON')
@@ -38,8 +40,8 @@ def create_city(state_id):
     return jsonify(cities[0]), 201
 
 
-@app_views.route('/cities/<city_id>', methods=['GET'])
-def get_city(city_id):
+@app_views.route('/cities/<city_id>', strict_slashes=False, methods=['GET'])
+def city(city_id):
     """return a city"""
     cities = storage.all("City").values()
     city = [obj.to_dict() for obj in cities if obj.id == city_id]
@@ -48,8 +50,8 @@ def get_city(city_id):
     return jsonify(city[0])
 
 
-@app_views.route('/cities/<city_id>', methods=['DELETE'])
-def delete_city(city_id):
+@app_views.route('/cities/<city_id>', strict_slashes=False, methods=['DELETE'])
+def del_city(city_id):
     """delete a specific city"""
     cities = storage.all("City").values()
     city = [obj.to_dict() for obj in cities if obj.id == city_id]
@@ -63,8 +65,8 @@ def delete_city(city_id):
     return jsonify({}), 200
 
 
-@app_views.route('/cities/<city_id>', methods=['PUT'])
-def update_city(city_id):
+@app_views.route('/cities/<city_id>', strict_slashes=False, methods=['PUT'])
+def updt_city(city_id):
     """update a city"""
     cities = storage.all("City").values()
     city = [obj.to_dict() for obj in cities if obj.id == city_id]
