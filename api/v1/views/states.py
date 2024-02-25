@@ -1,11 +1,9 @@
 #!/usr/bin/python3
 """Module for handling state-related API endpoints."""
-import uuid
 from flask import jsonify, abort, request
 from api.v1.views import app_views
 from models.state import State
 from models import storage
-from datetime import datetime
 
 
 @app_views.route('/states', strict_slashes=False, methods=['GET'])
