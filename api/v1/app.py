@@ -1,11 +1,13 @@
 #!/usr/bin/python3
 '''lsadfkjlkadsjf lksadj k jsdalfk jdaskl fljadsfkl.'''
 from flask import Flask, jsonify
+from flask_cors import CORS
 from models import storage
 from api.v1.views import app_views
 import os
 
 app = Flask(__name__)
+cors = CORS(app, resources={r"/api/*": {"origins": "0.0.0.0"}})
 app.url_map.strict_slashes = False
 
 
